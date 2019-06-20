@@ -1,0 +1,39 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.ebsco'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+ext{
+	swaggerVersion = '2.9.2'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	implementation group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '2.1.5'
+
+	// Swagger dependencies
+	def withoutGuava = { exclude group: 'com.google.guava', module: 'guava' }
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}", withoutGuava
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}", withoutGuava
+	implementation group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+}

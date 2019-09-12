@@ -8,24 +8,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mainpoint")
+@RequestMapping("/repository")
 @RequiredArgsConstructor
 public class GitExplorerController {
 
+    private final String USER = "/user";
+    private final String CONTENTS = "/contents";
+
     private final GitRepositoryService service;
 
-    @GetMapping("/repo")
-    public List<Repository> getAllUserRepositories(String userName) throws IOException {
+    @GetMapping
+    public List<Repository> getAllRepositories() {
+        return service.getAllRepositories();
+    }
+
+    @GetMapping(value = USER)
+    public List<Repository> getAllUserRepositories(String userName) {
         return service.getAllUserRepositories(userName);
     }
 
-    @GetMapping("/contents")
-    public List<RepositoryContents> getRepositoryContents(String repositoryUrl) throws IOException {
-        return service.getRepositoryContent(repositoryUrl);
+    @GetMapping(value = CONTENTS)
+    public List<RepositoryContents> getRepositoryContents(String repositoryUrl) {
+        return service.getRepositoryContents(repositoryUrl);
     }
-
 }
